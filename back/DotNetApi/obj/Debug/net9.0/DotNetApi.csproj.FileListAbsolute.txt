@@ -32,3 +32,11 @@ C:\harkka\back\DotNetApi\obj\Debug\net9.0\refint\DotNetApi.dll
 C:\harkka\back\DotNetApi\obj\Debug\net9.0\DotNetApi.pdb
 C:\harkka\back\DotNetApi\obj\Debug\net9.0\DotNetApi.genruntimeconfig.cache
 C:\harkka\back\DotNetApi\obj\Debug\net9.0\ref\DotNetApi.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\harkka\back\DotNetApi\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
