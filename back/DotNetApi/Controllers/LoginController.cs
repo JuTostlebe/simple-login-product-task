@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,27 +9,26 @@ using System.Text;
 [Route("api/[controller]")]
 public class LoginController : ControllerBase
 {
+    private readonly ApplicationDbContext _context;
     private readonly IConfiguration _configuration;
 
-    public LoginController(IConfiguration configuration)
+    public LoginController(ApplicationDbContext context, IConfiguration configuration)
     {
+        _context = context;
         _configuration = configuration;
     }
 
-public class LoginRequest
-{
-    [Required]
-    public string Username { get; set; } = string.Empty;
-    
-    [Required]
-    public string Password { get; set; } = string.Empty;
-}
-
     [HttpPost]
-    public IActionResult Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        // Remember to replace with actual user validation
-        if (request.Username == "admin" && request.Password == "password")
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Username == request.Username);
+
+        if (user == null)
+            return Unauthorized();
+
+        // TODO: Implement proper password hashing
+        if (request.Password == "password") // Replace with proper password verification
         {
             var token = GenerateJwtToken(request.Username);
             return Ok(new { token });

@@ -12,15 +12,15 @@ interface NutritionalInfo {
 }
 
 interface Product {
-    id: number;
-    name: string;
-    description: string;
-    packageSize: string;
-    eanCode: string;
-    ingredients: string;
-    nutritionalInfo: NutritionalInfo;
-    dietaryInfo: string[];
-    imageUrl: string;
+  id: number;
+  name: string;
+  description: string;
+  packageSize: string;
+  eanCode: string;
+  ingredients: string;
+  nutritionalInfoId: number;
+  dietaryInfo: string;
+  imageUrl: string;
 }
 
 export default function Home() {
@@ -42,11 +42,11 @@ export default function Home() {
                     return;
                 }
 
-                const response = await fetch('http://localhost:5223/api/Products', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Products`, {
+                  headers: {
+                      'Authorization': `Bearer ${token}`
+                  }
+              });
 
                 if (response.ok) {
                     const data = await response.json();
@@ -76,7 +76,7 @@ export default function Home() {
       <div className="min-h-screen bg-gray-900 p-8">
       <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-              <h1 className="text-3xl font-bold text-white">Products</h1>
+              <h1 className="text-3xl font-bold text-white text-center">Products</h1>
               <button 
                   onClick={handleLogout}
                   className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
@@ -89,9 +89,9 @@ export default function Home() {
                     {products.map((product) => (
                         <div key={product.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
                             <img 
-                                src={product.imageUrl} 
+                                src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`} 
                                 alt={product.name}
-                                className="w-full h-48 object-cover"
+                                className="w-full h-48 pt-6 object-contain"
                             />
                             <div className="p-6">
                                 <h2 className="text-xl font-bold text-white mb-2">{product.name}</h2>
@@ -109,14 +109,14 @@ export default function Home() {
                                     </p>
                                     
                                     <div className="flex flex-wrap gap-2">
-                                        {product.dietaryInfo.map((info, index) => (
-                                            <span 
-                                                key={index}
-                                                className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full"
-                                            >
-                                                {info}
-                                            </span>
-                                        ))}
+                                    {product.dietaryInfo.split(',').map((info, index) => (
+                                        <span 
+                                            key={index}
+                                            className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full"
+                                        >
+                                            {info}
+                                        </span>
+                                    ))}
                                     </div>
                                 </div>
                             </div>
