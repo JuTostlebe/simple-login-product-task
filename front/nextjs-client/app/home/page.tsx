@@ -1,7 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import NavMenu from '../components/NavMenu';
 import Cookies from 'js-cookie';
+import FilterBar, { Filters } from '../components/FilterBar';
 
 interface NutritionalInfo {
     energy: number;
@@ -25,13 +27,17 @@ interface Product {
 
 export default function Home() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    const handleLogout = () => {
-      Cookies.remove('token');
-      router.push('/login');
-  };
+    const handleProductClick = (eanCode: string) => {
+      router.push(`/product/${eanCode}`);
+     };
+
+    useEffect(() => {
+      setFilteredProducts(products);
+    }, [products]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -64,6 +70,19 @@ export default function Home() {
         fetchProducts();
     }, [router]);
 
+    const handleFilter = (filters: Filters) => {
+      let filtered = products;
+      
+      if (filters.search) {
+        filtered = filtered.filter(p => 
+          p.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+          p.eanCode.includes(filters.search)
+        );
+      }
+  
+      setFilteredProducts(filtered);
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -74,20 +93,14 @@ export default function Home() {
 
     return (
       <div className="min-h-screen bg-gray-900 p-8">
-      <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-              <h1 className="text-3xl font-bold text-white text-center">Products</h1>
-              <button 
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
-              >
-                  Log out
-              </button>
-          </div>
-                
+        <div className="max-w-7xl mx-auto">
+          <NavMenu />
+                <FilterBar onFilterChange={handleFilter} />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product) => (
-                        <div key={product.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    {filteredProducts.map((product) => (
+                        <div key={product.id}
+                            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer hover:bg-gray-700 transition-colors"
+                            onClick={() => handleProductClick(product.eanCode)}>
                             <img 
                                 src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`} 
                                 alt={product.name}
