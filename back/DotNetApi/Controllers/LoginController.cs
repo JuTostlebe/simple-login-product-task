@@ -22,19 +22,17 @@ public class LoginController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var user = await _context.Users
+            .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Username == request.Username);
 
         if (user == null)
             return Unauthorized();
 
-        // TODO: Implement proper password hashing
-        if (request.Password == "password") // Replace with proper password verification
-        {
-            var token = GenerateJwtToken(request.Username);
-            return Ok(new { token });
-        }
+        if (user.PasswordHash != request.Password)
+            return Unauthorized();
 
-        return Unauthorized();
+        var token = GenerateJwtToken(request.Username);
+        return Ok(new { token });
     }
 
     private string GenerateJwtToken(string username)
