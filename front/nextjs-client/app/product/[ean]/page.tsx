@@ -33,7 +33,7 @@ export default function ProductDetail({ params }: { params: Promise<{ ean: strin
       const fetchProduct = async () => {
         try {
           const token = Cookies.get('token');
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Search/${ean}`, {
+          const response = await fetch(`https://${process.env.NEXT_PUBLIC_API_URL}/api/Search/${ean}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           
@@ -59,7 +59,7 @@ export default function ProductDetail({ params }: { params: Promise<{ ean: strin
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="h-full">
                     <img 
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+                    src={`https://${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
                     alt={product.name}
                     className="rounded-lg m-auto"
                     />

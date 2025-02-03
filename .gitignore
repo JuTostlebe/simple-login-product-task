@@ -8,8 +8,8 @@ back/**/*.dll
 back/**/*.exe
 back/**/*.pdb
 back/**/launchSettings.json
-back/**/appsettings.Development.json
 back/**/appsettings.json
+back/**/appsettings.*.json
 back/**/static/
 
 # Visual Studio
@@ -31,3 +31,4 @@ front/**/.DS_Store
 # IDE
 **/.vscode/
 **/*.swp
+back/DotNetApi/.deployment

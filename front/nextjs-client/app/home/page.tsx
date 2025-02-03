@@ -5,14 +5,6 @@ import NavMenu from '../components/NavMenu';
 import Cookies from 'js-cookie';
 import FilterBar, { Filters } from '../components/FilterBar';
 
-interface NutritionalInfo {
-    energy: number;
-    fat: number;
-    carbohydrates: number;
-    protein: number;
-    salt: number;
-}
-
 interface Product {
   id: number;
   name: string;
@@ -48,7 +40,7 @@ export default function Home() {
                     return;
                 }
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Products`, {
+                const response = await fetch(`https://${process.env.NEXT_PUBLIC_API_URL}/api/Products`, {
                   headers: {
                       'Authorization': `Bearer ${token}`
                   }
@@ -102,7 +94,7 @@ export default function Home() {
                             className="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer hover:bg-gray-700 transition-colors"
                             onClick={() => handleProductClick(product.eanCode)}>
                             <img 
-                                src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`} 
+                                src={`https://${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`} 
                                 alt={product.name}
                                 className="w-full h-48 pt-6 object-contain"
                             />
